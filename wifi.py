@@ -17,7 +17,7 @@ def runSubProc(args):
 
 def getWifiInterface():
     fields = 'DEVICE,TYPE,STATE'
-    args = ['env', 'LC_ALL=C', 'nmcli', '-t', '-f', fields, 'device']
+    args = ['env', 'nmcli', '-t', '-f', fields, 'device']
     ok, out = runSubProc(args)
     if ok:
         va =  nmcli.parse(out)
@@ -32,7 +32,7 @@ def getWifiInterface():
 
 def getEthernetInterface():
     fields = 'DEVICE,TYPE,STATE'
-    args = ['env', 'LC_ALL=C', 'nmcli', '-t', '-f', fields, 'device']
+    args = ['env', 'nmcli', '-t', '-f', fields, 'device']
     ok, out = runSubProc(args)
     if ok:
         va =  nmcli.parse(out)
@@ -46,7 +46,7 @@ def getEthernetInterface():
         return {"error": out}
 
 def getInterfaceDetail(iface):
-    args = ['env', 'LC_ALL=C', 'nmcli', '-t', 'device', 'show', iface]
+    args = ['env', 'nmcli', '-t', 'device', 'show', iface]
     ok, out = runSubProc(args)
     if ok:
         va = nmcli.parseShow(out)
@@ -99,7 +99,7 @@ def getInterfaceDetail(iface):
 
 def getScanResult():
     fields = 'SSID,MODE,CHAN,RATE,SIGNAL,SECURITY'
-    args = ['env', 'LC_ALL=C', 'nmcli', '-t', '-f', fields, 'device', 'wifi']
+    args = ['env', 'nmcli', '-t', '-f', fields, 'device', 'wifi']
     ok, out = runSubProc(args)
     if ok:
         va = nmcli.parse(out)
@@ -113,7 +113,7 @@ def getScanResult():
 
 def getWifiConnection():
     fields = 'NAME,UUID,TYPE,DEVICE'
-    args = ['env', 'LC_ALL=C', 'nmcli', '-t', '-f', fields, 'connection']
+    args = ['env', 'nmcli', '-t', '-f', fields, 'connection']
     ok, out = runSubProc(args)
     if ok:
         va =  nmcli.parse(out)
@@ -128,7 +128,7 @@ def getWifiConnection():
 
 def getEthernetConnection():
     fields = 'NAME,UUID,TYPE,DEVICE'
-    args = ['env', 'LC_ALL=C', 'nmcli', '-t', '-f', fields, 'connection']
+    args = ['env', 'nmcli', '-t', '-f', fields, 'connection']
     ok, out = runSubProc(args)
     if ok:
         va =  nmcli.parse(out)
@@ -144,7 +144,7 @@ def getEthernetConnection():
 def activateConnection(uuid, iface = None):
     if uuid == None:
         return {"error": "invalid parameter"}
-    args = ['env', 'LC_ALL=C', 'nmcli', 'connection', 'up', uuid]
+    args = ['env', 'nmcli', 'connection', 'up', uuid]
     if iface:
         args.append("ifname")
         args.append(iface)
@@ -158,7 +158,7 @@ def createWifiConnection(ssid, password = None, iface=None, name=None):
     timeout = '20'
     if ssid == None:
         return {"error": "invalid parameter"}
-    args = ['env', 'LC_ALL=C', 'nmcli', '--wait', timeout, 'device', 'wifi', 'connect', ssid]
+    args = ['env', 'nmcli', '--wait', timeout, 'device', 'wifi', 'connect', ssid]
     if password:
         args.append("password")
         args.append(password)
@@ -177,7 +177,7 @@ def createWifiConnection(ssid, password = None, iface=None, name=None):
 def deleteConnection(uuid):
     if uuid == None:
         return {"error": "invalid parameter"}
-    args = ['env', 'LC_ALL=C', 'nmcli', 'connection', 'delete', uuid]
+    args = ['env', 'nmcli', 'connection', 'delete', uuid]
     ok, out = runSubProc(args)
     if ok:
         return {"msg": "ok"}
@@ -187,7 +187,7 @@ def deleteConnection(uuid):
 def disconnect(iface):
     if iface == None:
         return {"error": "invalid parameter"}
-    args = ['env', 'LC_ALL=C', 'nmcli', 'device', 'disconnect', iface]
+    args = ['env', 'nmcli', 'device', 'disconnect', iface]
     ok, out = runSubProc(args)
     if ok:
         return {"msg": "ok"}
